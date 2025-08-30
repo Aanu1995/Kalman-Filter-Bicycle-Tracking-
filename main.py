@@ -42,8 +42,8 @@ def main(video_path: str):
     Q = np.diag([1e-2, 1e-2, 1e-2, 1e-2])  # More uncertainty in velocity
     R = np.diag([4.0, 4.0])  # Measurement noise (adjust based on sensor)
 
-    kf = KalmanFilter(Q, R)
-    # kf = UnscentedKalmanFilter(alpha=0.1, beta=2.0, kappa=0, Q=Q, R=R)
+    # kf = KalmanFilter(Q, R)
+    kf = UnscentedKalmanFilter(alpha=0.1, beta=2.0, kappa=0, Q=Q, R=R)
 
     # Loop through the video frames
     while cap.isOpened():

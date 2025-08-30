@@ -41,6 +41,10 @@ class KalmanFilter:
         # Update timestamp
         self.timestamp_epoch = timestamp_epoch
 
+        if dt <= 0:
+            # skip propagation but still return current state
+            return self.x
+
         # State Transition Matrix F
         F = np.array([[1, 0, dt, 0], [0, 1, 0, dt], [0, 0, 1, 0], [0, 0, 0, 1]])
 

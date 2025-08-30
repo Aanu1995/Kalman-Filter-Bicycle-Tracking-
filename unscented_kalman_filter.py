@@ -102,11 +102,19 @@ class UnscentedKalmanFilter:
         timestamp_epoch : float
             Current time in seconds (epoch). Used to compute time elapsed since last prediction.
         """
+
+        if not self.is_initialized:
+            raise RuntimeError("UKF must be initialized before predict().")
+
         # calculate time elapsed since last update (in seconds)
         dt = timestamp_epoch - self.timestamp_epoch
 
         # update the filter's timestamp to the current epoch
         self.timestamp_epoch = timestamp_epoch
+
+        if dt <= 0:
+            # skip propagation but still return current state
+            return self.x
 
         # ------ UKF Prediction Step ------------
 
