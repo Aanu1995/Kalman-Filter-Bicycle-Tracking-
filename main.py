@@ -42,8 +42,8 @@ def main(video_path: str):
     Q = np.diag([1e-2, 1e-2, 1e-2, 1e-2])  # More uncertainty in velocity
     R = np.diag([4.0, 4.0])  # Measurement noise (adjust based on sensor)
 
-    # kf = KalmanFilter(Q, R)
-    kf = UnscentedKalmanFilter(alpha=0.1, beta=2.0, kappa=0, Q=Q, R=R)
+    kf = KalmanFilter(Q, R)
+    # kf = UnscentedKalmanFilter(alpha=0.1, beta=2.0, kappa=0, Q=Q, R=R)
 
     # Loop through the video frames
     while cap.isOpened():
@@ -87,7 +87,7 @@ def main(video_path: str):
         elif box is not None:
             # initialize the state mean if not already initialized
             cx, cy, _, _ = box
-            x = np.array([cx, cy, 0.0, 0.0], dtype=np.float64).reshape(4, 1)
+            x = np.array([cx, cy, 2.0, 0.5], dtype=np.float64).reshape(4, 1)
             kf.initialize(x, timestamp_epoch)
 
         cv.imshow("Bicycle Tracking", annotated_frame)
